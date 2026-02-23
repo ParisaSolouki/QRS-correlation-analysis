@@ -1,29 +1,80 @@
-# Calculating the correlation between one QRS complex and other QRS complexes(N,S,F,V,U)
-This code processes ECG signals from the MIT-BIH Arrhythmia Database, focusing on beat segmentation and correlation analysis of QRS complexes. After reading the ECG data files and applying necessary filtering, it segments the beats based on annotations and calculates the correlation between selected QRS complexes and a template derived from normal heartbeats (N type).
+# QRS Template Matching with Correlation Analysis (MIT-BIH)
 
+This project builds an end-to-end workflow to transform raw ECG time-series into structured beat-level data and quantify similarity between beats using correlation-based template matching.
 
-## Code Breakdown
-### 1. Imports: The necessary libraries are imported at the beginning of the code.
+Although the source data is biomedical, the core skills demonstrated are transferable to general analytics:
+**time-series preprocessing, feature engineering, data structuring, and relationship analysis.**
 
-### 2. Constants and Parameters:
-- Sampling frequency (fs): Set to 360 Hz.
-- Filter cutoff frequencies (fl, fh): Low and high cutoffs for bandpass filtering.
-- Filter coefficients: Butterworth filter coefficients are computed for both high-pass and low-pass filtering.
+---
 
-### 3. File Loading:
-The code uses glob to load .dat files from the specified directory and initializes lists to store the segmented data.
+## Objective
+Create a **normal-beat template** and measure how similar other beats are to it using **Pearson correlation**.
+This helps quantify pattern similarity across categories (N, S, F, V, U).
 
-### 4. Data Processing:
-#### For each ECG file:
-- The signal is read, and filtering is applied.
-- Annotations are read to identify R-peak positions and beat types.
-- Beats are segmented based on the annotations and categorized into different types (N, S, F, V, U).
+---
 
-### 5. Correlation Analysis of QRS Complexes:
-- Template Creation: The template for normal heartbeats is created by averaging the QRS complexes identified as type 'N'.
-- QRS Selection: Specific QRS complexes (e.g., qrs0 and qrs1) are selected for correlation analysis.
-- Calculating Correlation: The code calculates the Pearson correlation coefficient between the selected QRS complex and the template. The correlation provides insight into how similar the selected QRS complexes are to the template.
+## Dataset
+- **MIT-BIH Arrhythmia Database**
+- Sampling rate: **360 Hz**
+- Beat types used: **N, S, F, V, U**
 
+> Note: This repository does not include the dataset files. See *How to Run* to download/access the data.
 
-## Conclusion
-This code offers a comprehensive approach to ECG signal analysis, focusing on beat segmentation and correlation analysis. The correlation between QRS complexes allows for evaluating the consistency of heartbeats, which can be particularly useful for arrhythmia detection or quality assessment of ECG signals.
+---
+
+## Workflow
+1. **Load raw signals** (`.dat`) and annotations
+2. **Preprocess** (bandpass filtering using Butterworth filters)
+3. **Segment beats** around annotated R-peaks
+4. **Structure data** into beat-level arrays / tables by class
+5. **Build template** from normal beats (N) using averaging
+6. **Correlation analysis**: compare each beat (or selected beats) with the template
+7. **Summarize results** by beat type
+
+---
+
+## Methods
+### Filtering
+Butterworth high-pass + low-pass filters applied to reduce baseline wander and high-frequency noise.
+
+### Template Creation
+A template is created by averaging segmented beats labeled as **Normal (N)**.
+
+### Similarity Metric
+Pearson correlation coefficient is used to quantify similarity between a beat and the template.
+
+---
+
+## Outputs
+- Segmented beats grouped by type: **N, S, F, V, U**
+- Correlation scores per beat (or per selected beats)
+- Summary statistics (e.g., mean/median correlation per beat type)
+
+Suggested saved outputs:
+- `results/correlation_scores.csv`
+- `results/summary_by_type.csv`
+
+---
+
+## Example Insights (to be completed)
+Replace these with your actual results:
+- Beats of type **N** show the highest similarity to the template (mean r ≈ __).
+- Certain non-normal types (e.g., **V**) show noticeably lower correlation (mean r ≈ __), indicating distinct morphology.
+- Correlation distributions differ by type, making correlation a useful proxy feature for classification or anomaly detection.
+
+---
+
+## Tech Stack
+- Python
+- NumPy, pandas
+- SciPy (signal processing / correlation)
+- wfdb (MIT-BIH data reader)
+- Matplotlib (optional, for plots)
+
+---
+
+## How to Run
+1. Clone repo:
+   ```bash
+   git clone <repo-url>
+   cd <repo-folder>
