@@ -73,8 +73,3 @@ Replace these with your actual results:
 
 ---
 
-## How to Run
-1. Clone repo:
-   ```bash
-   git clone <repo-url>
-   cd <repo-folder>
