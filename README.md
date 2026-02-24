@@ -41,32 +41,20 @@ Although the dataset is biomedical (MIT-BIH Arrhythmia Database), the main focus
 ---
 
 ## Project Structure
+
+```
 QRS-correlation-analysis/
 │
 ├── notebooks/
-│ └── qrs_correlation.ipynb
+│   └── qrs_correlation.ipynb
 │
 ├── src/
-│ └── qrs_correlation.py
+│   └── qrs_correlation.py
 │
 ├── .gitignore
 └── README.md
+```
 
 
 ---
-
-## How to Run
-
-1. Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-2. Open the notebook:
-notebooks/qrs_correlation.ipynb
-
-
-3.run
-%run ../src/qrs_correlation.py
 
