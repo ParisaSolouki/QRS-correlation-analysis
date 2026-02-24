@@ -1,75 +1,72 @@
-# QRS Template Matching with Correlation Analysis (MIT-BIH)
+# QRS Correlation Analysis – Template-Based Similarity in Time-Series Data
 
-This project builds an end-to-end workflow to transform raw ECG time-series into structured beat-level data and quantify similarity between beats using correlation-based template matching.
+## Overview
 
-Although the source data is biomedical, the core skills demonstrated are transferable to general analytics:
-**time-series preprocessing, feature engineering, data structuring, and relationship analysis.**
+This project analyzes ECG time-series data by segmenting QRS complexes and measuring their similarity to a reference template using Pearson correlation.
 
----
-
-## Objective
-Create a **normal-beat template** and measure how similar other beats are to it using **Pearson correlation**.
-This helps quantify pattern similarity across categories (N, S, F, V, U).
+Although the dataset is biomedical (MIT-BIH Arrhythmia Database), the main focus of this project is **time-series preprocessing, feature extraction, and similarity analysis**, which are transferable skills in data analytics.
 
 ---
 
-## Dataset
-- **MIT-BIH Arrhythmia Database**
-- Sampling rate: **360 Hz**
-- Beat types used: **N, S, F, V, U**
+## Objectives
 
-> Note: This repository does not include the dataset files. See *How to Run* to download/access the data.
+- Segment time-series signals around annotated events
+- Apply signal filtering (Butterworth high-pass & low-pass)
+- Construct a representative template from normal patterns
+- Measure similarity using correlation coefficients
+- Compare behavior across different event classes
 
 ---
 
 ## Workflow
-1. **Load raw signals** (`.dat`) and annotations
-2. **Preprocess** (bandpass filtering using Butterworth filters)
-3. **Segment beats** around annotated R-peaks
-4. **Structure data** into beat-level arrays / tables by class
-5. **Build template** from normal beats (N) using averaging
-6. **Correlation analysis**: compare each beat (or selected beats) with the template
-7. **Summarize results** by beat type
+
+1. Load ECG records and annotations  
+2. Apply filtering to remove noise  
+3. Segment QRS windows around R-peaks  
+4. Categorize beats into N, S, F, V, U classes  
+5. Build a template from normal beats (mean signal)  
+6. Compute correlation between individual beats and template  
+7. Visualize similarity differences  
 
 ---
 
-## Methods
-### Filtering
-Butterworth high-pass + low-pass filters applied to reduce baseline wander and high-frequency noise.
+## Key Techniques Used
 
-### Template Creation
-A template is created by averaging segmented beats labeled as **Normal (N)**.
-
-### Similarity Metric
-Pearson correlation coefficient is used to quantify similarity between a beat and the template.
+- Time-series segmentation
+- Signal preprocessing
+- Feature construction (mean template)
+- Correlation analysis
+- Data visualization (matplotlib)
 
 ---
 
-## Outputs
-- Segmented beats grouped by type: **N, S, F, V, U**
-- Correlation scores per beat (or per selected beats)
-- Summary statistics (e.g., mean/median correlation per beat type)
+## Project Structure
+QRS-correlation-analysis/
+│
+├── notebooks/
+│ └── qrs_correlation.ipynb
+│
+├── src/
+│ └── qrs_correlation.py
+│
+├── .gitignore
+└── README.md
 
-Suggested saved outputs:
-- `results/correlation_scores.csv`
-- `results/summary_by_type.csv`
-
----
-
-## Example Insights (to be completed)
-Replace these with your actual results:
-- Beats of type **N** show the highest similarity to the template (mean r ≈ __).
-- Certain non-normal types (e.g., **V**) show noticeably lower correlation (mean r ≈ __), indicating distinct morphology.
-- Correlation distributions differ by type, making correlation a useful proxy feature for classification or anomaly detection.
 
 ---
 
-## Tech Stack
-- Python
-- NumPy, pandas
-- SciPy (signal processing / correlation)
-- wfdb (MIT-BIH data reader)
-- Matplotlib (optional, for plots)
+## How to Run
 
----
+1. Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+2. Open the notebook:
+notebooks/qrs_correlation.ipynb
+
+
+3.run
+%run ../src/qrs_correlation.py
 
