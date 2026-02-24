@@ -1,2 +1,12 @@
+# System files
 .DS_Store
-Template.mat
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Generated files
+*.mat
